@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .exercise-card {
+    @apply bg-gradient-to-br from-accent-500 to-accent-600 text-white rounded-xl p-6 shadow-lg;
+  }
+  
+  .section-card {
+    @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
+  }
+  
+  .code-block {
+    @apply bg-gray-800 text-green-400 p-4 rounded-lg font-mono text-sm;
+  }
+  
+  .signal-high {
+    @apply bg-blue-500;
+  }
+  
+  .signal-low {
+    @apply bg-gray-300;
+  }
+}
