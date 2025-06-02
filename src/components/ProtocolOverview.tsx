@@ -9,6 +9,9 @@ interface Protocol {
   port?: number;
   examples: string[];
   category: 'network' | 'security' | 'application' | 'iot';
+  description: string;
+  howItWorks: string;
+  characteristics: string[];
 }
 
 interface HTTPMethod {
@@ -38,7 +41,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'Web-Kommunikation',
       port: 80,
       examples: ['Web Browser', 'REST APIs', 'AJAX'],
-      category: 'application'
+      category: 'application',
+      description: 'HTTP ist das Grundprotokoll des World Wide Web. Es definiert, wie Web-Browser und Web-Server miteinander kommunizieren.',
+      howItWorks: 'Client sendet HTTP-Request (GET, POST, etc.) → Server verarbeitet Request → Server sendet HTTP-Response mit Statuscode zurück',
+      characteristics: ['Zustandslos (Stateless)', 'Request/Response-Modell', 'Text-basiert', 'TCP als Transport']
     },
     {
       name: 'HTTPS',
@@ -47,7 +53,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'Sichere Web-Kommunikation',
       port: 443,
       examples: ['Online Banking', 'E-Commerce', 'Login'],
-      category: 'security'
+      category: 'security',
+      description: 'HTTPS ist HTTP mit SSL/TLS-Verschlüsselung. Es gewährleistet Vertraulichkeit, Integrität und Authentizität der Datenübertragung.',
+      howItWorks: 'Client und Server führen SSL/TLS-Handshake durch → Verschlüsselte HTTP-Kommunikation → Zertifikat bestätigt Server-Identität',
+      characteristics: ['Ende-zu-Ende Verschlüsselung', 'Server-Authentifizierung', 'Datenintegrität', 'Standard für sensible Daten']
     },
     {
       name: 'SMTP',
@@ -56,7 +65,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'E-Mail versenden',
       port: 25,
       examples: ['Mail Server', 'Outlook', 'Gmail'],
-      category: 'application'
+      category: 'application',
+      description: 'SMTP ist das Standard-Protokoll zum Versenden von E-Mails zwischen Mail-Servern und von E-Mail-Clients zu Mail-Servern.',
+      howItWorks: 'Mail-Client verbindet zu SMTP-Server → Authentifizierung → MAIL FROM, RCPT TO, DATA-Befehle → E-Mail wird weitergeleitet',
+      characteristics: ['Push-Protokoll (nur senden)', 'Text-basierte Befehle', 'Store-and-Forward-Prinzip', 'Arbeitet mit MX-Records']
     },
     {
       name: 'POP3',
@@ -65,7 +77,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'E-Mail abrufen (Download)',
       port: 110,
       examples: ['Mail Client', 'Thunderbird'],
-      category: 'application'
+      category: 'application',
+      description: 'POP3 lädt E-Mails vom Server herunter und löscht sie dort. Ideal für einen primären Computer mit lokaler E-Mail-Verwaltung.',
+      howItWorks: 'Client verbindet zu POP3-Server → Authentifizierung → LIST, RETR (Download), DELE (Löschen) → Verbindung trennen',
+      characteristics: ['Download-und-Lösch-Prinzip', 'Offline-Zugriff möglich', 'Keine Synchronisation', 'Einfach und ressourcenschonend']
     },
     {
       name: 'IMAP',
@@ -74,7 +89,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'E-Mail abrufen (Server)',
       port: 143,
       examples: ['Webmail', 'Mobile Apps'],
-      category: 'application'
+      category: 'application',
+      description: 'IMAP belässt E-Mails auf dem Server und synchronisiert sie zwischen verschiedenen Geräten. Ideal für Multi-Device-Nutzung.',
+      howItWorks: 'Client verbindet zu IMAP-Server → Authentifizierung → Ordner-Synchronisation → E-Mails bleiben auf Server → Multi-Device-Zugriff',
+      characteristics: ['Server-seitige Speicherung', 'Multi-Device-Synchronisation', 'Ordner-Verwaltung', 'Online-/Offline-Modi']
     },
     {
       name: 'FTP',
@@ -83,7 +101,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'Dateiübertragung',
       port: 21,
       examples: ['FileZilla', 'Web Hosting'],
-      category: 'application'
+      category: 'application',
+      description: 'FTP ermöglicht das Übertragen von Dateien zwischen Client und Server. Es gibt Active- und Passive-Modi für Firewall-Kompatibilität.',
+      howItWorks: 'Control-Connection (Port 21) für Befehle → Data-Connection für Dateitransfer → Active/Passive Modi für Firewall-Durchlass',
+      characteristics: ['Zwei separate Verbindungen', 'Active/Passive Modi', 'ASCII/Binary Transfer', 'Authentifizierung erforderlich']
     },
     {
       name: 'DNS',
@@ -92,7 +113,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'Domain-Auflösung',
       port: 53,
       examples: ['www.google.com → IP', 'Nameserver'],
-      category: 'network'
+      category: 'network',
+      description: 'DNS ist das "Telefonbuch des Internets". Es übersetzt lesbare Domainnamen in IP-Adressen und umgekehrt.',
+      howItWorks: 'Client fragt lokalen DNS-Server → Rekursive/Iterative Anfragen → Root-Server → TLD-Server → Autoritativer Server → IP-Antwort',
+      characteristics: ['Hierarchische Struktur', 'Caching für Performance', 'UDP für Anfragen', 'Verschiedene Record-Typen (A, AAAA, MX, etc.)']
     },
     {
       name: 'DHCP',
@@ -101,7 +125,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'IP-Konfiguration zuweisen',
       port: 67,
       examples: ['Router', 'IP-Vergabe', 'Subnet Mask'],
-      category: 'network'
+      category: 'network',
+      description: 'DHCP automatisiert die Netzwerkkonfiguration. Clients erhalten automatisch IP-Adresse, Subnetzmaske, Gateway und DNS-Server.',
+      howItWorks: 'DHCP Discover (Broadcast) → DHCP Offer (Server) → DHCP Request (Client) → DHCP Acknowledge (Server) [DORA-Prozess]',
+      characteristics: ['Automatische IP-Vergabe', 'Lease-Time-Konzept', 'DORA-Prozess', 'Zentrale Konfiguration']
     },
     {
       name: 'SSH',
@@ -110,7 +137,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'Sichere Fernsteuerung',
       port: 22,
       examples: ['Terminal', 'SCP', 'SFTP'],
-      category: 'security'
+      category: 'security',
+      description: 'SSH bietet sichere, verschlüsselte Fernsteuerung von Computern. Es ersetzt unsichere Protokolle wie Telnet und bietet Tunneling.',
+      howItWorks: 'Verschlüsselter Verbindungsaufbau → Authentifizierung (Passwort/Keys) → Verschlüsselte Befehlsübertragung → Sichere Shell-Sitzung',
+      characteristics: ['Starke Verschlüsselung', 'Public-Key-Authentifizierung', 'Port-Forwarding/Tunneling', 'Sichere Dateiübertragung (SCP/SFTP)']
     },
     {
       name: 'Telnet',
@@ -119,7 +149,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'Unverschlüsselte Fernsteuerung',
       port: 23,
       examples: ['Legacy Systems', 'Debug'],
-      category: 'application'
+      category: 'application',
+      description: 'Telnet ermöglicht Fernsteuerung über Netzwerk, überträgt aber alles unverschlüsselt. Heute meist durch SSH ersetzt.',
+      howItWorks: 'TCP-Verbindung aufbauen → Terminal-Emulation → Klartextübertragung aller Daten → Interaktive Shell-Sitzung',
+      characteristics: ['Unverschlüsselt (Sicherheitsrisiko)', 'Einfache Terminal-Emulation', 'Text-basiert', 'Legacy-Protokoll']
     },
     {
       name: 'NTP',
@@ -128,7 +161,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'Zeitynchronisation',
       port: 123,
       examples: ['System Clock', 'Server Time'],
-      category: 'network'
+      category: 'network',
+      description: 'NTP synchronisiert die Uhren von Computern über Netzwerke. Wichtig für Logs, Kryptografie und verteilte Systeme.',
+      howItWorks: 'Client fragt NTP-Server nach Zeit → Roundtrip-Time-Messung → Offset-Berechnung → Schrittweise Uhren-Anpassung',
+      characteristics: ['Hierarchische Stratum-Ebenen', 'Millisekunden-Genauigkeit', 'UTC-basiert', 'Kompensiert Netzwerk-Latenz']
     },
     {
       name: 'SNMP',
@@ -137,7 +173,10 @@ const ProtocolOverview: React.FC = () => {
       purpose: 'Netzwerk-Management',
       port: 161,
       examples: ['Router Config', 'Monitoring'],
-      category: 'network'
+      category: 'network',
+      description: 'SNMP ermöglicht das Management und Monitoring von Netzwerkgeräten. Manager können Informationen abfragen und Konfigurationen ändern.',
+      howItWorks: 'SNMP-Manager sendet GET/SET-Requests → SNMP-Agent auf Gerät antwortet → MIB (Management Information Base) definiert verfügbare Daten',
+      characteristics: ['Agent/Manager-Modell', 'MIB-basierte Datenstruktur', 'GET/SET/TRAP-Operationen', 'Community Strings für Sicherheit']
     },
     {
       name: 'ARP',
@@ -145,7 +184,10 @@ const ProtocolOverview: React.FC = () => {
       layer: 2,
       purpose: 'IP → MAC Adress-Auflösung',
       examples: ['Local Network', 'Switch Tables'],
-      category: 'network'
+      category: 'network',
+      description: 'ARP löst IP-Adressen in MAC-Adressen auf. Essentiell für die Kommunikation im lokalen Netzwerk (Layer 2 → Layer 3 Mapping).',
+      howItWorks: 'ARP Request (Broadcast): "Wer hat IP X?" → ARP Reply (Unicast): "Ich habe IP X, meine MAC ist Y" → ARP-Tabelle aktualisieren',
+      characteristics: ['Broadcast-basiert (IPv4)', 'ARP-Cache/Tabelle', 'Gratuitous ARP möglich', 'Nur im lokalen Netzwerk']
     },
     {
       name: 'TCP',
@@ -153,7 +195,10 @@ const ProtocolOverview: React.FC = () => {
       layer: 4,
       purpose: 'Zuverlässige Datenübertragung',
       examples: ['HTTP', 'SMTP', 'FTP'],
-      category: 'network'
+      category: 'network',
+      description: 'TCP gewährleistet zuverlässige, geordnete und fehlerfreie Datenübertragung. Verbindungsorientiert mit Flusskontrolle und Überlastkontrolle.',
+      howItWorks: 'Three-Way Handshake → Datenübertragung mit Sequence-Nummern → Acknowledgments → Retransmission bei Verlusten → Connection Teardown',
+      characteristics: ['Verbindungsorientiert', 'Zuverlässig (Guaranteed Delivery)', 'Flusskontrolle', 'Congestion Control', 'Full-Duplex']
     },
     {
       name: 'UDP',
@@ -161,7 +206,10 @@ const ProtocolOverview: React.FC = () => {
       layer: 4,
       purpose: 'Schnelle Datenübertragung',
       examples: ['DNS', 'Video Streaming', 'Games'],
-      category: 'network'
+      category: 'network',
+      description: 'UDP ist ein einfaches, verbindungsloses Protokoll ohne Zuverlässigkeitsgarantien. Geringer Overhead, ideal für zeitkritische Anwendungen.',
+      howItWorks: 'Direkte Datagram-Übertragung → Keine Verbindung → Keine Bestätigungen → Best-Effort Delivery → Anwendung übernimmt Fehlerbehandlung',
+      characteristics: ['Verbindungslos', 'Unzuverlässig (Best Effort)', 'Geringer Overhead', 'Broadcast/Multicast-fähig', 'Schnell']
     }
   ];
 
@@ -321,37 +369,63 @@ const ProtocolOverview: React.FC = () => {
         <div className="section-card">
           <h3 className="text-xl font-semibold mb-4">Netzwerkprotokolle</h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {protocols.map((protocol) => (
               <div
                 key={protocol.name}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow"
               >
-                <div className="flex items-start justify-between mb-2">
-                  <h4 className="font-semibold text-lg">{protocol.name}</h4>
+                <div className="flex items-start justify-between mb-3">
+                  <h4 className="font-semibold text-xl">{protocol.name}</h4>
                   <span className={`text-xs px-2 py-1 rounded ${getCategoryColor(protocol.category)}`}>
                     Layer {protocol.layer}
                   </span>
                 </div>
                 
                 <p className="text-sm text-gray-600 mb-2">{protocol.fullName}</p>
-                <p className="text-sm mb-3">{protocol.purpose}</p>
+                <p className="text-gray-700 mb-4">{protocol.description}</p>
                 
                 {protocol.port && (
-                  <div className="text-xs text-blue-600 mb-2">
+                  <div className="text-sm text-blue-600 mb-3 font-mono">
                     Port: {protocol.port}
                   </div>
                 )}
-                
-                <div className="flex flex-wrap gap-1">
-                  {protocol.examples.map((example, i) => (
-                    <span
-                      key={i}
-                      className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
-                    >
-                      {example}
-                    </span>
-                  ))}
+
+                <div className="space-y-3">
+                  <div>
+                    <h5 className="font-medium text-gray-700 mb-2">🔄 Funktionsweise:</h5>
+                    <p className="text-sm text-gray-600 bg-blue-50 p-3 rounded">
+                      {protocol.howItWorks}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h5 className="font-medium text-gray-700 mb-2">✨ Eigenschaften:</h5>
+                    <div className="flex flex-wrap gap-1">
+                      {protocol.characteristics.map((char, i) => (
+                        <span
+                          key={i}
+                          className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded"
+                        >
+                          {char}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h5 className="font-medium text-gray-700 mb-2">📚 Beispiele:</h5>
+                    <div className="flex flex-wrap gap-1">
+                      {protocol.examples.map((example, i) => (
+                        <span
+                          key={i}
+                          className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
+                        >
+                          {example}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}

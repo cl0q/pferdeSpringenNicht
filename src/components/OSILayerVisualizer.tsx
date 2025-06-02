@@ -91,7 +91,11 @@ const OSILayerVisualizer: React.FC = () => {
 
   const startDataFlow = () => {
     setShowAnimation(true);
-    setTimeout(() => setShowAnimation(false), 3500);
+    
+    // Reset after animation completes
+    setTimeout(() => {
+      setShowAnimation(false);
+    }, 4000);
   };
 
   return (
@@ -109,11 +113,42 @@ const OSILayerVisualizer: React.FC = () => {
         <div className="flex justify-center mb-6">
           <button
             onClick={startDataFlow}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            disabled={showAnimation}
+            className={`px-6 py-2 rounded-lg transition-colors ${
+              showAnimation 
+                ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+                : 'bg-blue-600 text-white hover:bg-blue-700'
+            }`}
           >
-            📡 Datenfluss simulieren
+            {showAnimation ? '📡 Simulation läuft...' : '📡 Datenfluss simulieren'}
           </button>
         </div>
+
+        {/* Data Flow Visualization */}
+        {showAnimation && (
+          <div className="section-card mb-6">
+            <h3 className="text-lg font-semibold mb-4 text-green-700">
+              🚀 Datenpaket-Simulation aktiv!
+            </h3>
+            <div className="bg-green-50 p-4 rounded-lg">
+              <div className="flex items-center space-x-4 mb-3">
+                <div className="animate-pulse bg-blue-500 text-white px-3 py-1 rounded text-sm font-mono">
+                  DATA PACKET
+                </div>
+                <div className="flex-1 h-2 bg-green-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-green-500 animate-pulse"></div>
+                </div>
+                <span className="text-sm text-green-700 font-medium">
+                  Layer {Math.floor((Date.now() % 3000) / 400) + 1} Processing...
+                </span>
+              </div>
+              <p className="text-sm text-green-600">
+                Das Datenpaket wird gerade durch alle OSI-Schichten verarbeitet. 
+                Beachten Sie die grünen Highlights an den Layern!
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -124,14 +159,15 @@ const OSILayerVisualizer: React.FC = () => {
             {layers.map((layer) => (
               <div
                 key={layer.number}
-                className={`relative border-2 rounded-lg p-4 cursor-pointer transition-all duration-300 ${
+                className={`relative border-2 rounded-lg p-4 cursor-pointer transition-all duration-500 ${
                   selectedLayer === layer.number
                     ? 'border-blue-500 shadow-lg scale-105'
                     : 'border-gray-200 hover:border-gray-300'
-                } ${showAnimation ? `animate-pulse` : ''}`}
+                } ${showAnimation ? `animate-bounce border-green-500 bg-green-100 shadow-xl` : ''}`}
                 onClick={() => setSelectedLayer(selectedLayer === layer.number ? null : layer.number)}
                 style={{
-                  animationDelay: showAnimation ? `${(7 - layer.number) * 0.3}s` : '0s'
+                  animationDelay: showAnimation ? `${(7 - layer.number) * 0.4}s` : '0s',
+                  animationDuration: showAnimation ? '0.8s' : '0s'
                 }}
               >
                 <div className="flex items-center justify-between">
