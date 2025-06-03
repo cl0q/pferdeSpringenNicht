@@ -504,28 +504,237 @@ const CablingVisualizer: React.FC = () => {
                         </svg>
                       </div>
                       
-                      {/* Fiber Types Comparison */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                          <h6 className="font-medium text-yellow-800 mb-2">🔆 Single-Mode (OS2):</h6>
-                          <div className="space-y-1 text-xs text-yellow-700">
-                            <div><strong>Kerndurchmesser:</strong> 9 μm</div>
-                            <div><strong>Wellenlänge:</strong> 1310/1550 nm</div>
-                            <div><strong>Distanz:</strong> bis 40+ km</div>
-                            <div><strong>Bandbreite:</strong> &gt;10 Gbps</div>
-                            <div><strong>Anwendung:</strong> WAN, Campus Backbone</div>
+                      {/* Detailed Mode Comparison */}
+                      <div className="space-y-6">
+                        <h6 className="font-semibold text-lg mb-4">🔬 Single-Mode vs Multi-Mode im Detail:</h6>
+                        
+                        {/* Visual Mode Comparison */}
+                        <div className="bg-gray-100 p-6 rounded-lg">
+                          <h6 className="font-medium mb-4 text-center">Lichtausbreitung in den Modi:</h6>
+                          <svg width="600" height="250" className="mx-auto border rounded bg-white">
+                            {/* Single-Mode Visualization */}
+                            <text x="300" y="25" textAnchor="middle" className="text-lg font-bold">Single-Mode (OS2)</text>
+                            
+                            {/* Single-Mode Fiber */}
+                            <rect x="50" y="50" width="500" height="40" fill="#FDE68A" stroke="#F59E0B" strokeWidth="2" rx="20"/>
+                            <rect x="290" y="55" width="20" height="30" fill="#F59E0B" rx="15"/>
+                            <text x="300" y="45" textAnchor="middle" className="text-xs font-bold">9μm Kern</text>
+                            
+                            {/* Single light ray */}
+                            <path d="M 20 70 L 580 70" stroke="#DC2626" strokeWidth="3" strokeDasharray="5,3">
+                              <animate attributeName="stroke-dashoffset" values="8;0" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <text x="30" y="65" className="text-xs font-bold text-red-600">Ein Lichtmodus</text>
+                            <text x="450" y="110" className="text-xs text-yellow-700">Keine Modendispersion = große Distanzen</text>
+                            
+                            {/* Multi-Mode Visualization */}
+                            <text x="300" y="150" textAnchor="middle" className="text-lg font-bold">Multi-Mode (OM3/OM4)</text>
+                            
+                            {/* Multi-Mode Fiber */}
+                            <rect x="50" y="175" width="500" height="60" fill="#FED7AA" stroke="#FB923C" strokeWidth="2" rx="30"/>
+                            <rect x="280" y="185" width="40" height="40" fill="#FB923C" rx="20"/>
+                            <text x="300" y="170" textAnchor="middle" className="text-xs font-bold">50/62.5μm Kern</text>
+                            
+                            {/* Multiple light rays */}
+                            <path d="M 20 190 Q 200 180 400 190 Q 500 195 580 190" stroke="#DC2626" strokeWidth="2"/>
+                            <path d="M 20 205 L 580 205" stroke="#DC2626" strokeWidth="2"/>
+                            <path d="M 20 220 Q 200 230 400 220 Q 500 215 580 220" stroke="#DC2626" strokeWidth="2"/>
+                            <text x="30" y="185" className="text-xs font-bold text-red-600">Viele Modi</text>
+                            <text x="450" y="255" className="text-xs text-orange-700">Modendispersion = begrenzte Distanz</text>
+                          </svg>
+                        </div>
+
+                        {/* Detailed Comparison Cards */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          {/* Single-Mode Detail */}
+                          <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-300 rounded-xl p-6 shadow-lg">
+                            <div className="flex items-center space-x-3 mb-4">
+                              <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-lg">SM</span>
+                              </div>
+                              <div>
+                                <h6 className="font-bold text-yellow-800 text-xl">Single-Mode (OS2)</h6>
+                                <p className="text-yellow-600 text-sm">Ein Lichtmodus - große Distanzen</p>
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-4">
+                              <div>
+                                <h6 className="font-semibold text-yellow-800 mb-2">🔧 Technische Details:</h6>
+                                <div className="space-y-2 text-sm text-yellow-700">
+                                  <div><strong>Kerndurchmesser:</strong> 9 μm (sehr dünn!)</div>
+                                  <div><strong>Mantel:</strong> 125 μm</div>
+                                  <div><strong>Wellenlänge:</strong> 1310/1550 nm (Infrarot)</div>
+                                  <div><strong>Numerische Apertur:</strong> 0.12-0.14</div>
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <h6 className="font-semibold text-yellow-800 mb-2">⚡ Performance:</h6>
+                                <div className="space-y-2 text-sm text-yellow-700">
+                                  <div><strong>Distanz:</strong> 10-80+ km</div>
+                                  <div><strong>Bandbreite:</strong> Praktisch unbegrenzt</div>
+                                  <div><strong>Dämpfung:</strong> 0.2-0.4 dB/km</div>
+                                  <div><strong>Dispersion:</strong> Minimal (3.5 ps/nm/km)</div>
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <h6 className="font-semibold text-yellow-800 mb-2">💰 Kosten & Einsatz:</h6>
+                                <div className="space-y-2 text-sm text-yellow-700">
+                                  <div><strong>Faser:</strong> Teurer als MM</div>
+                                  <div><strong>Transceiver:</strong> Deutlich teurer (Laser)</div>
+                                  <div><strong>Installation:</strong> Präzise Ausrichtung nötig</div>
+                                  <div><strong>Anwendung:</strong> WAN, Metro, Long-Haul</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Multi-Mode Detail */}
+                          <div className="bg-gradient-to-br from-orange-50 to-orange-100 border-2 border-orange-300 rounded-xl p-6 shadow-lg">
+                            <div className="flex items-center space-x-3 mb-4">
+                              <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-lg">MM</span>
+                              </div>
+                              <div>
+                                <h6 className="font-bold text-orange-800 text-xl">Multi-Mode (OM3/OM4/OM5)</h6>
+                                <p className="text-orange-600 text-sm">Viele Modi - kostengünstig</p>
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-4">
+                              <div>
+                                <h6 className="font-semibold text-orange-800 mb-2">🔧 Technische Details:</h6>
+                                <div className="space-y-2 text-sm text-orange-700">
+                                  <div><strong>Kerndurchmesser:</strong> 50μm (OM3/4) / 62.5μm (OM1/2)</div>
+                                  <div><strong>Mantel:</strong> 125 μm</div>
+                                  <div><strong>Wellenlänge:</strong> 850/1300 nm</div>
+                                  <div><strong>Numerische Apertur:</strong> 0.2 (50μm) / 0.275 (62.5μm)</div>
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <h6 className="font-semibold text-orange-800 mb-2">⚡ Performance:</h6>
+                                <div className="space-y-2 text-sm text-orange-700">
+                                  <div><strong>Distanz:</strong> 300m-2km (je nach Typ)</div>
+                                  <div><strong>OM3 (850nm):</strong> 300m @ 10G</div>
+                                  <div><strong>OM4 (850nm):</strong> 400m @ 10G, 150m @ 40G</div>
+                                  <div><strong>Dämpfung:</strong> 3.5 dB/km @ 850nm</div>
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <h6 className="font-semibold text-orange-800 mb-2">💰 Kosten & Einsatz:</h6>
+                                <div className="space-y-2 text-sm text-orange-700">
+                                  <div><strong>Faser:</strong> Günstiger als SM</div>
+                                  <div><strong>Transceiver:</strong> Günstig (LED/VCSEL)</div>
+                                  <div><strong>Installation:</strong> Toleranter bei Ausrichtung</div>
+                                  <div><strong>Anwendung:</strong> LAN, Datenzentren, Campus</div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        
-                        <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-                          <h6 className="font-medium text-orange-800 mb-2">🌈 Multi-Mode (OM3/OM4):</h6>
-                          <div className="space-y-1 text-xs text-orange-700">
-                            <div><strong>Kerndurchmesser:</strong> 50/62.5 μm</div>
-                            <div><strong>Wellenlänge:</strong> 850/1300 nm</div>
-                            <div><strong>Distanz:</strong> 300m - 2km</div>
-                            <div><strong>Bandbreite:</strong> 1-10 Gbps</div>
-                            <div><strong>Anwendung:</strong> LAN, Datenzentren</div>
+
+                        {/* Mode Dispersion Explanation */}
+                        <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                          <h6 className="font-semibold text-blue-800 mb-3">📡 Warum begrenzt Modendispersion die Distanz?</h6>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                              <h6 className="font-medium text-blue-700 mb-2">Single-Mode:</h6>
+                              <div className="text-sm text-blue-600 space-y-1">
+                                <p>• Nur ein Lichtweg durch den Kern</p>
+                                <p>• Alle Photonen haben gleiche Laufzeit</p>
+                                <p>• Kein "Pulsverbreiterung"</p>
+                                <p>• Signal bleibt scharf über große Distanzen</p>
+                              </div>
+                            </div>
+                            <div>
+                              <h6 className="font-medium text-orange-700 mb-2">Multi-Mode:</h6>
+                              <div className="text-sm text-orange-600 space-y-1">
+                                <p>• Hunderte verschiedene Lichtwege</p>
+                                <p>• Unterschiedliche Laufzeiten (Modal Dispersion)</p>
+                                <p>• Signalpulse "verschmieren"</p>
+                                <p>• ISI (Inter-Symbol Interference) bei langen Strecken</p>
+                              </div>
+                            </div>
                           </div>
+                        </div>
+
+                        {/* Fiber Standards Comparison */}
+                        <div className="overflow-x-auto">
+                          <h6 className="font-semibold mb-3">📊 LWL-Standards im Vergleich:</h6>
+                          <table className="w-full border border-gray-300 text-sm">
+                            <thead className="bg-gray-50">
+                              <tr>
+                                <th className="px-3 py-2 border-b text-left">Standard</th>
+                                <th className="px-3 py-2 border-b text-left">Typ</th>
+                                <th className="px-3 py-2 border-b text-left">Kern</th>
+                                <th className="px-3 py-2 border-b text-left">10G Distanz</th>
+                                <th className="px-3 py-2 border-b text-left">40G Distanz</th>
+                                <th className="px-3 py-2 border-b text-left">Anwendung</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr className="hover:bg-gray-50">
+                                <td className="px-3 py-2 border-b font-mono text-orange-600">OM1</td>
+                                <td className="px-3 py-2 border-b">Multi-Mode</td>
+                                <td className="px-3 py-2 border-b">62.5μm</td>
+                                <td className="px-3 py-2 border-b">33m</td>
+                                <td className="px-3 py-2 border-b">-</td>
+                                <td className="px-3 py-2 border-b">Legacy (orange)</td>
+                              </tr>
+                              <tr className="hover:bg-gray-50">
+                                <td className="px-3 py-2 border-b font-mono text-orange-600">OM2</td>
+                                <td className="px-3 py-2 border-b">Multi-Mode</td>
+                                <td className="px-3 py-2 border-b">62.5μm</td>
+                                <td className="px-3 py-2 border-b">82m</td>
+                                <td className="px-3 py-2 border-b">-</td>
+                                <td className="px-3 py-2 border-b">Legacy (orange)</td>
+                              </tr>
+                              <tr className="hover:bg-gray-50">
+                                <td className="px-3 py-2 border-b font-mono text-orange-600">OM3</td>
+                                <td className="px-3 py-2 border-b">Multi-Mode</td>
+                                <td className="px-3 py-2 border-b">50μm</td>
+                                <td className="px-3 py-2 border-b">300m</td>
+                                <td className="px-3 py-2 border-b">100m</td>
+                                <td className="px-3 py-2 border-b">Datenzentren (aqua)</td>
+                              </tr>
+                              <tr className="hover:bg-gray-50">
+                                <td className="px-3 py-2 border-b font-mono text-orange-600">OM4</td>
+                                <td className="px-3 py-2 border-b">Multi-Mode</td>
+                                <td className="px-3 py-2 border-b">50μm</td>
+                                <td className="px-3 py-2 border-b">400m</td>
+                                <td className="px-3 py-2 border-b">150m</td>
+                                <td className="px-3 py-2 border-b">Moderne DC (aqua/violet)</td>
+                              </tr>
+                              <tr className="hover:bg-gray-50">
+                                <td className="px-3 py-2 border-b font-mono text-orange-600">OM5</td>
+                                <td className="px-3 py-2 border-b">Multi-Mode</td>
+                                <td className="px-3 py-2 border-b">50μm</td>
+                                <td className="px-3 py-2 border-b">400m</td>
+                                <td className="px-3 py-2 border-b">150m</td>
+                                <td className="px-3 py-2 border-b">SWDM optimiert (lime green)</td>
+                              </tr>
+                              <tr className="hover:bg-blue-50">
+                                <td className="px-3 py-2 border-b font-mono text-yellow-600">OS1</td>
+                                <td className="px-3 py-2 border-b">Single-Mode</td>
+                                <td className="px-3 py-2 border-b">9μm</td>
+                                <td className="px-3 py-2 border-b">10km+</td>
+                                <td className="px-3 py-2 border-b">10km+</td>
+                                <td className="px-3 py-2 border-b">Indoor (yellow)</td>
+                              </tr>
+                              <tr className="hover:bg-blue-50">
+                                <td className="px-3 py-2 border-b font-mono text-yellow-600">OS2</td>
+                                <td className="px-3 py-2 border-b">Single-Mode</td>
+                                <td className="px-3 py-2 border-b">9μm</td>
+                                <td className="px-3 py-2 border-b">40km+</td>
+                                <td className="px-3 py-2 border-b">40km+</td>
+                                <td className="px-3 py-2 border-b">Outdoor (yellow)</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                       
