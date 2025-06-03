@@ -15,6 +15,7 @@ interface OSILayer {
 const OSILayerVisualizer: React.FC = () => {
   const [selectedLayer, setSelectedLayer] = useState<number | null>(null);
   const [showAnimation, setShowAnimation] = useState(false);
+  const [currentAnimationLayer, setCurrentAnimationLayer] = useState<number | null>(null);
 
   const layers: OSILayer[] = [
     {
@@ -91,11 +92,24 @@ const OSILayerVisualizer: React.FC = () => {
 
   const startDataFlow = () => {
     setShowAnimation(true);
+    setCurrentAnimationLayer(7);
     
-    // Reset after animation completes
-    setTimeout(() => {
-      setShowAnimation(false);
-    }, 4000);
+    // Animate through each layer sequentially
+    const animateLayer = (layer: number) => {
+      if (layer < 1) {
+        // Animation complete
+        setTimeout(() => {
+          setShowAnimation(false);
+          setCurrentAnimationLayer(null);
+        }, 500);
+        return;
+      }
+      
+      setCurrentAnimationLayer(layer);
+      setTimeout(() => animateLayer(layer - 1), 600);
+    };
+    
+    animateLayer(7);
   };
 
   return (
@@ -132,19 +146,24 @@ const OSILayerVisualizer: React.FC = () => {
             </h3>
             <div className="bg-green-50 p-4 rounded-lg">
               <div className="flex items-center space-x-4 mb-3">
-                <div className="animate-pulse bg-blue-500 text-white px-3 py-1 rounded text-sm font-mono">
-                  DATA PACKET
+                <div className="bg-blue-500 text-white px-3 py-1 rounded text-sm font-mono shadow-lg">
+                  📦 DATA PACKET
                 </div>
-                <div className="flex-1 h-2 bg-green-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-green-500 animate-pulse"></div>
+                <div className="flex-1 h-3 bg-green-200 rounded-full overflow-hidden relative">
+                  <div 
+                    className="h-full bg-gradient-to-r from-blue-500 to-green-500 rounded-full transition-all duration-500 ease-in-out"
+                    style={{ 
+                      width: currentAnimationLayer ? `${((8 - currentAnimationLayer) / 7) * 100}%` : '0%' 
+                    }}
+                  ></div>
                 </div>
-                <span className="text-sm text-green-700 font-medium">
-                  Layer {Math.floor((Date.now() % 3000) / 400) + 1} Processing...
+                <span className="text-sm text-green-700 font-medium bg-white px-2 py-1 rounded shadow">
+                  {currentAnimationLayer ? `Layer ${currentAnimationLayer} Processing...` : 'Fertig!'}
                 </span>
               </div>
               <p className="text-sm text-green-600">
-                Das Datenpaket wird gerade durch alle OSI-Schichten verarbeitet. 
-                Beachten Sie die grünen Highlights an den Layern!
+                Das Datenpaket durchläuft sequenziell alle OSI-Schichten von Layer 7 → 1. 
+                Beachten Sie den orangenen Highlight am aktuellen Layer!
               </p>
             </div>
           </div>
@@ -163,12 +182,8 @@ const OSILayerVisualizer: React.FC = () => {
                   selectedLayer === layer.number
                     ? 'border-blue-500 shadow-lg scale-105'
                     : 'border-gray-200 hover:border-gray-300'
-                } ${showAnimation ? `animate-bounce border-green-500 bg-green-100 shadow-xl` : ''}`}
+                } ${currentAnimationLayer === layer.number ? 'border-orange-500 bg-orange-100 shadow-xl scale-105' : ''}`}
                 onClick={() => setSelectedLayer(selectedLayer === layer.number ? null : layer.number)}
-                style={{
-                  animationDelay: showAnimation ? `${(7 - layer.number) * 0.4}s` : '0s',
-                  animationDuration: showAnimation ? '0.8s' : '0s'
-                }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -267,7 +282,7 @@ const OSILayerVisualizer: React.FC = () => {
       <div className="section-card">
           <h3 className="text-xl font-semibold mb-4">Adressierungsarten & Kommunikationsmodelle</h3>
           <p className="text-gray-600 mb-6">
-            Verschiedene Arten der Netzwerkkommunikation - von 1:1 bis 1:viele Verbindungen.
+            Verschiedene Arten der Netzwerkkommunikation - von 1:1 bis 1:viele Verbindungen sowie Übertragungsrichtungen.
           </p>
 
           {/* Top Row - Full Width Cards */}
@@ -582,6 +597,230 @@ const OSILayerVisualizer: React.FC = () => {
                 <div><strong>Multicast:</strong> Software-Updates, Live-Übertragungen</div>
                 <div><strong>Anycast:</strong> Load-Balancer, Geo-DNS</div>
                 <div><strong>Broadcast:</strong> DHCP-Requests, NetBIOS-Namen</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Duplex Communication Modes */}
+          <div className="mt-8">
+            <h4 className="font-semibold mb-6 text-lg">🔄 Übertragungsrichtungen (Duplex-Modi):</h4>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Simplex */}
+              <div className="bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-white font-bold text-lg">→</span>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-red-800 text-xl">Simplex</h5>
+                    <p className="text-red-600 text-sm">Einseitige Übertragung</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <div>
+                    <strong className="text-red-800">Definition:</strong>
+                    <p className="text-red-700 text-sm">Daten fließen nur in eine Richtung</p>
+                  </div>
+                  <div>
+                    <strong className="text-red-800">Eigenschaften:</strong>
+                    <p className="text-red-700 text-sm">Sender kann nur senden, Empfänger kann nur empfangen</p>
+                  </div>
+                  <div>
+                    <strong className="text-red-800">Beispiele:</strong>
+                    <p className="text-red-700 text-sm">Radio, TV-Broadcast, Keyboard → PC</p>
+                  </div>
+                </div>
+
+                {/* Simplex Visualization */}
+                <div className="bg-white p-4 rounded-lg border-2 border-red-200 shadow-inner mt-4">
+                  <svg width="100%" height="80" viewBox="0 0 280 80" className="mx-auto">
+                    <circle cx="50" cy="40" r="20" fill="#EF4444" stroke="#DC2626" strokeWidth="2"/>
+                    <text x="50" y="46" textAnchor="middle" className="text-xs font-bold fill-white">Sender</text>
+                    
+                    <circle cx="230" cy="40" r="20" fill="#6B7280" stroke="#4B5563" strokeWidth="2"/>
+                    <text x="230" y="46" textAnchor="middle" className="text-xs font-bold fill-white">Empfänger</text>
+                    
+                    <path d="M 75 40 L 205 40" stroke="#EF4444" strokeWidth="4" markerEnd="url(#redArrowSimplex)"/>
+                    <text x="140" y="30" textAnchor="middle" className="text-xs font-bold text-red-600">nur eine Richtung</text>
+                    
+                    <defs>
+                      <marker id="redArrowSimplex" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                        <polygon points="0 0, 12 4, 0 8" fill="#EF4444"/>
+                      </marker>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+
+              {/* Half-Duplex */}
+              <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-white font-bold text-lg">⇄</span>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-yellow-800 text-xl">Halbduplex</h5>
+                    <p className="text-yellow-600 text-sm">Wechselseitige Übertragung</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <div>
+                    <strong className="text-yellow-800">Definition:</strong>
+                    <p className="text-yellow-700 text-sm">Bidirektional, aber nicht gleichzeitig</p>
+                  </div>
+                  <div>
+                    <strong className="text-yellow-800">Eigenschaften:</strong>
+                    <p className="text-yellow-700 text-sm">Abwechselnd senden/empfangen (Turn-Taking)</p>
+                  </div>
+                  <div>
+                    <strong className="text-yellow-800">Beispiele:</strong>
+                    <p className="text-yellow-700 text-sm">Walkie-Talkie, CSMA/CD (Hub), RS-485</p>
+                  </div>
+                </div>
+
+                {/* Half-Duplex Visualization */}
+                <div className="bg-white p-4 rounded-lg border-2 border-yellow-200 shadow-inner mt-4">
+                  <svg width="100%" height="80" viewBox="0 0 280 80" className="mx-auto">
+                    <circle cx="50" cy="40" r="20" fill="#F59E0B" stroke="#D97706" strokeWidth="2"/>
+                    <text x="50" y="46" textAnchor="middle" className="text-xs font-bold fill-white">A</text>
+                    
+                    <circle cx="230" cy="40" r="20" fill="#F59E0B" stroke="#D97706" strokeWidth="2"/>
+                    <text x="230" y="46" textAnchor="middle" className="text-xs font-bold fill-white">B</text>
+                    
+                    <path d="M 75 35 L 205 35" stroke="#F59E0B" strokeWidth="3" markerEnd="url(#yellowArrowHalf)" strokeDasharray="8,4"/>
+                    <path d="M 205 45 L 75 45" stroke="#9CA3AF" strokeWidth="3" markerEnd="url(#grayArrowHalf)" strokeDasharray="4,8"/>
+                    
+                    <text x="140" y="25" textAnchor="middle" className="text-xs font-bold text-yellow-600">A → B (aktiv)</text>
+                    <text x="140" y="60" textAnchor="middle" className="text-xs text-gray-500">B → A (wartet)</text>
+                    
+                    <defs>
+                      <marker id="yellowArrowHalf" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#F59E0B"/>
+                      </marker>
+                      <marker id="grayArrowHalf" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#9CA3AF"/>
+                      </marker>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+
+              {/* Full-Duplex */}
+              <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-white font-bold text-lg">⇅</span>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-green-800 text-xl">Vollduplex</h5>
+                    <p className="text-green-600 text-sm">Simultane Übertragung</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <div>
+                    <strong className="text-green-800">Definition:</strong>
+                    <p className="text-green-700 text-sm">Bidirektional und gleichzeitig</p>
+                  </div>
+                  <div>
+                    <strong className="text-green-800">Eigenschaften:</strong>
+                    <p className="text-green-700 text-sm">Separater Sende- und Empfangskanal</p>
+                  </div>
+                  <div>
+                    <strong className="text-green-800">Beispiele:</strong>
+                    <p className="text-green-700 text-sm">Ethernet (Switch), Telefon, LWL</p>
+                  </div>
+                </div>
+
+                {/* Full-Duplex Visualization */}
+                <div className="bg-white p-4 rounded-lg border-2 border-green-200 shadow-inner mt-4">
+                  <svg width="100%" height="80" viewBox="0 0 280 80" className="mx-auto">
+                    <circle cx="50" cy="40" r="20" fill="#10B981" stroke="#047857" strokeWidth="2"/>
+                    <text x="50" y="46" textAnchor="middle" className="text-xs font-bold fill-white">A</text>
+                    
+                    <circle cx="230" cy="40" r="20" fill="#10B981" stroke="#047857" strokeWidth="2"/>
+                    <text x="230" y="46" textAnchor="middle" className="text-xs font-bold fill-white">B</text>
+                    
+                    <path d="M 75 32 L 205 32" stroke="#10B981" strokeWidth="3" markerEnd="url(#greenArrowFull)"/>
+                    <path d="M 205 48 L 75 48" stroke="#10B981" strokeWidth="3" markerEnd="url(#greenArrowFull2)"/>
+                    
+                    <text x="140" y="22" textAnchor="middle" className="text-xs font-bold text-green-600">A → B</text>
+                    <text x="140" y="65" textAnchor="middle" className="text-xs font-bold text-green-600">B → A</text>
+                    <text x="140" y="75" textAnchor="middle" className="text-xs text-green-500">(gleichzeitig)</text>
+                    
+                    <defs>
+                      <marker id="greenArrowFull" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#10B981"/>
+                      </marker>
+                      <marker id="greenArrowFull2" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#10B981"/>
+                      </marker>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Duplex Comparison Table */}
+            <div className="mt-6 overflow-x-auto">
+              <h5 className="font-semibold mb-3">📊 Duplex-Modi Vergleich:</h5>
+              <table className="w-full border border-gray-300 text-sm">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-2 border-b text-left">Modus</th>
+                    <th className="px-4 py-2 border-b text-left">Richtung</th>
+                    <th className="px-4 py-2 border-b text-left">Gleichzeitig</th>
+                    <th className="px-4 py-2 border-b text-left">Bandbreite-Effizienz</th>
+                    <th className="px-4 py-2 border-b text-left">Typische Anwendung</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="hover:bg-gray-50">
+                    <td className="px-4 py-2 border-b font-semibold text-red-600">Simplex</td>
+                    <td className="px-4 py-2 border-b">Unidirektional</td>
+                    <td className="px-4 py-2 border-b">N/A</td>
+                    <td className="px-4 py-2 border-b">🟢 100%</td>
+                    <td className="px-4 py-2 border-b">Broadcasting, Sensoren</td>
+                  </tr>
+                  <tr className="hover:bg-gray-50">
+                    <td className="px-4 py-2 border-b font-semibold text-yellow-600">Halbduplex</td>
+                    <td className="px-4 py-2 border-b">Bidirektional</td>
+                    <td className="px-4 py-2 border-b">❌ Nein</td>
+                    <td className="px-4 py-2 border-b">🟡 ~50%</td>
+                    <td className="px-4 py-2 border-b">CSMA/CD, Shared Medium</td>
+                  </tr>
+                  <tr className="hover:bg-gray-50">
+                    <td className="px-4 py-2 border-b font-semibold text-green-600">Vollduplex</td>
+                    <td className="px-4 py-2 border-b">Bidirektional</td>
+                    <td className="px-4 py-2 border-b">✅ Ja</td>
+                    <td className="px-4 py-2 border-b">🟢 200%</td>
+                    <td className="px-4 py-2 border-b">Moderne Ethernet, Telefon</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Practical Examples */}
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <h6 className="font-semibold text-blue-800 mb-2">💡 Netzwerk-Beispiele:</h6>
+                <div className="space-y-2 text-sm text-blue-700">
+                  <div><strong>Simplex:</strong> Syslog-Server ← Client</div>
+                  <div><strong>Halbduplex:</strong> Hub-basiertes Ethernet</div>
+                  <div><strong>Vollduplex:</strong> Switch-Port, Punkt-zu-Punkt Links</div>
+                </div>
+              </div>
+              
+              <div className="bg-orange-50 p-4 rounded-lg">
+                <h6 className="font-semibold text-orange-800 mb-2">⚡ Performance-Impact:</h6>
+                <div className="space-y-2 text-sm text-orange-700">
+                  <div><strong>Kollisionen:</strong> Nur bei Halbduplex</div>
+                  <div><strong>Bandbreite:</strong> Vollduplex = 2x theoretisch</div>
+                  <div><strong>Latenz:</strong> Simplex &lt; Vollduplex &lt; Halbduplex</div>
+                </div>
               </div>
             </div>
           </div>
