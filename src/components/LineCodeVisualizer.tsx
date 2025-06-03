@@ -612,6 +612,119 @@ const LineCodeVisualizer: React.FC = () => {
             </table>
           </div>
 
+          {/* Block Coding Advantages - from VL2 */}
+          <div className="bg-gradient-to-br from-green-50 to-blue-50 p-6 rounded-lg border-2 border-green-300 mb-6">
+            <h5 className="font-semibold text-green-800 mb-4 text-xl">🎯 Warum Blockkodierungen? (VL2 Erkenntnisse)</h5>
+            
+            <div className="bg-red-50 p-4 rounded-lg mb-4 border border-red-200">
+              <h6 className="font-semibold text-red-800 mb-2">❌ Probleme der einfachen Leitungscodes:</h6>
+              <div className="text-sm text-red-700 space-y-1">
+                <p><strong>NRZ/NRZI/MLT-3:</strong> Baseline Wander + keine garantierte Taktrückgewinnung</p>
+                <p><strong>Manchester:</strong> Nur 50% Effizienz (doppelte Bandbreite)</p>
+                <p><strong>AMI:</strong> Keine Taktrückgewinnung bei Nullfolgen</p>
+                <p><strong>Alle:</strong> Problem mit Idle/Start/Stop-Signalisierung</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Key Advantages */}
+              <div className="space-y-4">
+                <h6 className="font-semibold text-green-800 mb-3">✅ Lösung durch Blockkodierung:</h6>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-green-200">
+                  <h6 className="font-semibold text-green-700 mb-2">🎯 1. Beste beider Welten</h6>
+                  <p className="text-sm text-green-600">
+                    Kombiniert <strong>hohe Effizienz</strong> (80-83%) mit <strong>zuverlässiger Taktrückgewinnung</strong> 
+                    - ohne die 50% Effizienz von Manchester
+                  </p>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-blue-200">
+                  <h6 className="font-semibold text-blue-700 mb-2">🔄 2. Garantierte Synchronisation</h6>
+                  <p className="text-sm text-blue-600">
+                    <strong>4B5B:</strong> Max. 3 Nullen hintereinander<br/>
+                    <strong>8B10B:</strong> Max. 5 gleiche Bits<br/>
+                    → Empfänger kann Takt immer wiedergewinnen
+                  </p>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-purple-200">
+                  <h6 className="font-semibold text-purple-700 mb-2">🛡️ 3. Eingebaute Fehlererkennung</h6>
+                  <p className="text-sm text-purple-600">
+                    Ungültige Codewörter zeigen Übertragungsfehler an:<br/>
+                    <strong>4B5B:</strong> 16 ungültige 5-Bit-Kombinationen<br/>
+                    <strong>8B10B:</strong> Disparity-Verletzungen erkennbar
+                  </p>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-orange-200">
+                  <h6 className="font-semibold text-orange-700 mb-2">📡 4. Steuerzeichen-Unterstützung</h6>
+                  <p className="text-sm text-orange-600">
+                    Löst Idle/Start/Stop-Problem elegantly:<br/>
+                    • Spezielle Codewörter für Steuerung<br/>
+                    • Keine Coderegelverletzungen nötig
+                  </p>
+                </div>
+              </div>
+
+              {/* How it works */}
+              <div className="space-y-4">
+                <h6 className="font-semibold text-blue-800 mb-3">⚙️ Wie es funktioniert:</h6>
+
+                <div className="bg-gray-50 p-4 rounded-lg border">
+                  <h6 className="font-semibold text-gray-800 mb-2">📝 Grundprinzip (VL2):</h6>
+                  <div className="text-sm text-gray-700 space-y-2">
+                    <p>1. <strong>Eingabeblöcke</strong> fester Größe</p>
+                    <p>2. <strong>Ausgabeblöcke</strong> fester Größe (mit Redundanz)</p>
+                    <p>3. <strong>Nachfolgende</strong> Leitungskodierung (NRZI/NRZ)</p>
+                    <p>4. <strong>Ziel:</strong> Manchester-Eigenschaften + hohe Effizienz</p>
+                  </div>
+                </div>
+
+                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                  <h6 className="font-semibold text-yellow-800 mb-2">🔢 4B5B Beispiel (VL2):</h6>
+                  <div className="text-sm text-yellow-700 space-y-1">
+                    <p>• 32 mögliche 5-Bit-Kombinationen</p>
+                    <p>• 16 für Daten (0-F), 16 für Steuerung/ungültig</p>
+                    <p>• Jedes 5-Bit-Wort: max. 1 führende Null</p>
+                    <p>• Dann NRZI → 2-Pegel-Signal</p>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                  <h6 className="font-semibold text-blue-800 mb-2">⚖️ 5B6B Balance (VL2):</h6>
+                  <div className="text-sm text-blue-700 space-y-1">
+                    <p>• 20 Wörter: gleich viele 0en/1en (neutral)</p>
+                    <p>• 12 Wörter: positive/negative Varianten</p>
+                    <p>• Alternierende Verwendung → DC-frei</p>
+                    <p>• Dann NRZ (kein NRZI nötig)</p>
+                  </div>
+                </div>
+
+                <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                  <h6 className="font-semibold text-green-800 mb-2">🎯 8B10B Perfektion:</h6>
+                  <div className="text-sm text-green-700 space-y-1">
+                    <p>• Running Disparity Control</p>
+                    <p>• 5/5, 6/4 oder 4/6 Bits pro Symbol</p>
+                    <p>• Perfekte DC-Freiheit + Fehlererkennung</p>
+                    <p>• Standard für Gigabit Ethernet</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* VL2 Quote */}
+            <div className="mt-6 bg-blue-100 p-4 rounded-lg border-l-4 border-blue-500">
+              <p className="text-blue-800 italic text-sm">
+                <strong>VL2 Zitat:</strong> "Das Ziel ist also, die positiven Eigenschaften der 
+                Manchesterkodierung und eine möglichst hohe Effizienz zu erreichen."
+              </p>
+              <p className="text-blue-700 text-xs mt-2">
+                → Blockkodierungen lösen dieses Dilemma durch kontrollierte Redundanz!
+              </p>
+            </div>
+          </div>
+
           {/* Practical Applications */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">

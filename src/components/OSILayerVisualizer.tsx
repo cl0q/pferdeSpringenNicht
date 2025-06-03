@@ -825,6 +825,478 @@ const OSILayerVisualizer: React.FC = () => {
             </div>
           </div>
         </div>
+
+      {/* Layer 2 Addressing - MAC, ARP, etc. */}
+      <div className="section-card">
+        <h3 className="text-xl font-semibold mb-4">🔗 Adressierung der Sicherungsschicht (Layer 2)</h3>
+        <p className="text-gray-600 mb-6">
+          MAC-Adressen, ARP-Protokoll, Broadcast-Adressen und Sicherheitsaspekte der Layer-2-Adressierung.
+        </p>
+
+        <div className="space-y-8">
+          {/* MAC Addresses */}
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-6 shadow-lg">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-xl">MAC</span>
+              </div>
+              <div>
+                <h4 className="font-bold text-blue-800 text-2xl">MAC-Adressen</h4>
+                <p className="text-blue-600 text-base">Media Access Control - Eindeutige Hardware-Identifikation</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div>
+                  <strong className="text-blue-800 text-base">Format & Struktur:</strong>
+                  <div className="bg-white p-4 rounded-lg border-2 border-blue-200 shadow-inner mt-2">
+                    <div className="font-mono text-lg text-center text-blue-700 mb-2">00:1A:2B:3C:4D:5E</div>
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div className="bg-blue-100 p-2 rounded text-center">
+                        <div className="font-bold text-blue-800">OUI</div>
+                        <div className="text-blue-600">00:1A:2B</div>
+                        <div className="text-xs text-blue-500">Hersteller-ID</div>
+                      </div>
+                      <div className="bg-green-100 p-2 rounded text-center">
+                        <div className="font-bold text-green-800">NIC</div>
+                        <div className="text-green-600">3C:4D:5E</div>
+                        <div className="text-xs text-green-500">Geräte-ID</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <strong className="text-blue-800 text-base">Eigenschaften:</strong>
+                  <div className="space-y-2 text-sm text-blue-700 mt-2">
+                    <div>• <strong>Länge:</strong> 48 Bit (6 Bytes)</div>
+                    <div>• <strong>Eindeutigkeit:</strong> Weltweit eindeutig (theoretisch)</div>
+                    <div>• <strong>Brennbar:</strong> Im ROM der Netzwerkkarte gespeichert</div>
+                    <div>• <strong>Scope:</strong> Nur im lokalen Netzwerksegment gültig</div>
+                    <div>• <strong>Format:</strong> Hexadezimal (0-9, A-F)</div>
+                  </div>
+                </div>
+
+                <div>
+                  <strong className="text-blue-800 text-base">Spezielle Adressen:</strong>
+                  <div className="space-y-2 text-sm text-blue-700 mt-2">
+                    <div>• <strong>Broadcast:</strong> FF:FF:FF:FF:FF:FF</div>
+                    <div>• <strong>Multicast:</strong> Erstes Bit = 1 (ungerade erste Hexzahl)</div>
+                    <div>• <strong>Unicast:</strong> Erstes Bit = 0 (gerade erste Hexzahl)</div>
+                    <div>• <strong>Local Admin:</strong> Zweites Bit = 1 (manuell gesetzt)</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-white p-4 rounded-lg border border-blue-200">
+                  <h6 className="font-semibold text-blue-800 mb-2">🏭 OUI-Beispiele:</h6>
+                  <div className="space-y-1 text-sm text-blue-700">
+                    <div><span className="font-mono bg-blue-100 px-1 rounded">00:50:56</span> VMware</div>
+                    <div><span className="font-mono bg-blue-100 px-1 rounded">00:0C:29</span> VMware (alt)</div>
+                    <div><span className="font-mono bg-blue-100 px-1 rounded">08:00:27</span> VirtualBox</div>
+                    <div><span className="font-mono bg-blue-100 px-1 rounded">00:1B:63</span> Apple</div>
+                    <div><span className="font-mono bg-blue-100 px-1 rounded">00:50:B6</span> Intel</div>
+                    <div><span className="font-mono bg-blue-100 px-1 rounded">00:E0:4C</span> Realtek</div>
+                  </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg border border-blue-200">
+                  <h6 className="font-semibold text-blue-800 mb-2">🔍 MAC-Adress-Analyse:</h6>
+                  <div className="space-y-2 text-sm text-blue-700">
+                    <div><strong>Bit 0 (I/G):</strong> Individual/Group Flag</div>
+                    <div className="text-xs pl-4">0 = Unicast, 1 = Multicast/Broadcast</div>
+                    <div><strong>Bit 1 (U/L):</strong> Universal/Local Flag</div>
+                    <div className="text-xs pl-4">0 = Global eindeutig, 1 = Lokal verwaltet</div>
+                  </div>
+                </div>
+
+                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                  <h6 className="font-semibold text-yellow-800 mb-2">⚠️ Wichtige Fakten:</h6>
+                  <div className="space-y-1 text-sm text-yellow-700">
+                    <div>• MAC-Adressen können softwareseitig geändert werden</div>
+                    <div>• Keine Routing-Information enthalten</div>
+                    <div>• Router ersetzen MAC-Adressen in Frames</div>
+                    <div>• Nur für lokale Kommunikation relevant</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ARP Protocol */}
+          <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-xl p-6 shadow-lg">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-xl">ARP</span>
+              </div>
+              <div>
+                <h4 className="font-bold text-green-800 text-2xl">Address Resolution Protocol</h4>
+                <p className="text-green-600 text-base">Auflösung von IP-Adressen zu MAC-Adressen</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              {/* ARP Process Visualization */}
+              <div className="bg-white p-6 rounded-lg border-2 border-green-200 shadow-inner">
+                <h6 className="font-semibold text-green-800 mb-4 text-center">🔄 ARP-Prozess Ablauf:</h6>
+                <svg width="100%" height="300" viewBox="0 0 800 300" className="mx-auto">
+                  {/* Devices */}
+                  <rect x="50" y="100" width="120" height="80" fill="#3B82F6" stroke="#1E40AF" strokeWidth="2" rx="10"/>
+                  <text x="110" y="130" textAnchor="middle" className="text-sm font-bold fill-white">PC A</text>
+                  <text x="110" y="145" textAnchor="middle" className="text-xs fill-white">192.168.1.10</text>
+                  <text x="110" y="160" textAnchor="middle" className="text-xs fill-white">AA:BB:CC:DD:EE:11</text>
+
+                  <rect x="630" y="100" width="120" height="80" fill="#10B981" stroke="#047857" strokeWidth="2" rx="10"/>
+                  <text x="690" y="130" textAnchor="middle" className="text-sm font-bold fill-white">PC B</text>
+                  <text x="690" y="145" textAnchor="middle" className="text-xs fill-white">192.168.1.20</text>
+                  <text x="690" y="160" textAnchor="middle" className="text-xs fill-white">AA:BB:CC:DD:EE:22</text>
+
+                  {/* Switch */}
+                  <rect x="350" y="120" width="100" height="40" fill="#6B7280" stroke="#374151" strokeWidth="2" rx="5"/>
+                  <text x="400" y="142" textAnchor="middle" className="text-sm font-bold fill-white">Switch</text>
+
+                  {/* ARP Request */}
+                  <path d="M 170 120 L 620 120" stroke="#EF4444" strokeWidth="3" markerEnd="url(#redArrowARP)"/>
+                  <text x="400" y="110" textAnchor="middle" className="text-sm font-bold text-red-600">ARP Request (Broadcast)</text>
+                  <text x="400" y="95" textAnchor="middle" className="text-xs text-red-500">"Wer hat 192.168.1.20?"</text>
+
+                  {/* ARP Reply */}
+                  <path d="M 620 160 L 170 160" stroke="#10B981" strokeWidth="3" markerEnd="url(#greenArrowARP)"/>
+                  <text x="400" y="175" textAnchor="middle" className="text-sm font-bold text-green-600">ARP Reply (Unicast)</text>
+                  <text x="400" y="190" textAnchor="middle" className="text-xs text-green-500">"Ich bin 192.168.1.20: AA:BB:CC:DD:EE:22"</text>
+
+                  {/* Broadcast cloud */}
+                  <ellipse cx="400" cy="50" rx="150" ry="25" fill="none" stroke="#EF4444" strokeWidth="2" strokeDasharray="5,5"/>
+                  <text x="400" y="35" textAnchor="middle" className="text-xs text-red-600">Broadcast-Domain</text>
+
+                  <defs>
+                    <marker id="redArrowARP" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                      <polygon points="0 0, 12 4, 0 8" fill="#EF4444"/>
+                    </marker>
+                    <marker id="greenArrowARP" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+                      <polygon points="0 0, 12 4, 0 8" fill="#10B981"/>
+                    </marker>
+                  </defs>
+                </svg>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <strong className="text-green-800 text-base">ARP-Prozess Schritte:</strong>
+                    <div className="space-y-2 text-sm text-green-700 mt-2">
+                      <div><strong>1. ARP Request:</strong> Broadcast an alle im Segment</div>
+                      <div><strong>2. Ziel-Check:</strong> Nur das Zielgerät antwortet</div>
+                      <div><strong>3. ARP Reply:</strong> Unicast-Antwort mit MAC-Adresse</div>
+                      <div><strong>4. Cache Update:</strong> Beide Geräte aktualisieren ARP-Tabelle</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <strong className="text-green-800 text-base">ARP-Paket Format:</strong>
+                    <div className="bg-gray-50 p-3 rounded border mt-2">
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div>Hardware Type (2B)</div>
+                        <div>Protocol Type (2B)</div>
+                        <div>HW Len (1B)</div>
+                        <div>Proto Len (1B)</div>
+                        <div colSpan={2}>Operation (2B)</div>
+                        <div colSpan={2}>Sender MAC (6B)</div>
+                        <div colSpan={2}>Sender IP (4B)</div>
+                        <div colSpan={2}>Target MAC (6B)</div>
+                        <div colSpan={2}>Target IP (4B)</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="bg-white p-4 rounded-lg border border-green-200">
+                    <h6 className="font-semibold text-green-800 mb-2">📝 ARP-Tabelle Beispiel:</h6>
+                    <div className="font-mono text-xs space-y-1 text-green-700">
+                      <div className="grid grid-cols-3 gap-2 font-bold border-b">
+                        <div>IP</div>
+                        <div>MAC</div>
+                        <div>TTL</div>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <div>192.168.1.1</div>
+                        <div>00:1A:2B:3C:4D:5E</div>
+                        <div>300s</div>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <div>192.168.1.20</div>
+                        <div>AA:BB:CC:DD:EE:22</div>
+                        <div>120s</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h6 className="font-semibold text-blue-800 mb-2">🔧 ARP-Kommandos:</h6>
+                    <div className="space-y-1 text-sm text-blue-700">
+                      <div><span className="font-mono bg-blue-100 px-1 rounded">arp -a</span> - Alle Einträge anzeigen</div>
+                      <div><span className="font-mono bg-blue-100 px-1 rounded">arp -d IP</span> - Eintrag löschen</div>
+                      <div><span className="font-mono bg-blue-100 px-1 rounded">arp -s IP MAC</span> - Statischen Eintrag erstellen</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <h6 className="font-semibold text-yellow-800 mb-2">⏰ ARP-Caching:</h6>
+                    <div className="space-y-1 text-sm text-yellow-700">
+                      <div>• <strong>TTL:</strong> Typisch 2-20 Minuten</div>
+                      <div>• <strong>Gratuitous ARP:</strong> Ankündigung eigener IP</div>
+                      <div>• <strong>ARP Aging:</strong> Automatisches Löschen alter Einträge</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Broadcast Addresses */}
+          <div className="bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200 rounded-xl p-6 shadow-lg">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-xl">📡</span>
+              </div>
+              <div>
+                <h4 className="font-bold text-red-800 text-2xl">Broadcast-Adressen</h4>
+                <p className="text-red-600 text-base">Adressierung aller Geräte im Netzwerksegment</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div>
+                  <strong className="text-red-800 text-base">Layer 2 Broadcast:</strong>
+                  <div className="bg-white p-4 rounded-lg border-2 border-red-200 shadow-inner mt-2">
+                    <div className="text-center">
+                      <div className="font-mono text-xl text-red-700 mb-2">FF:FF:FF:FF:FF:FF</div>
+                      <div className="text-sm text-red-600">Alle 48 Bits auf 1 gesetzt</div>
+                      <div className="text-xs text-red-500 mt-2">Erreicht alle Geräte im Switch-Domain</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <strong className="text-red-800 text-base">Broadcast-Verhalten:</strong>
+                  <div className="space-y-2 text-sm text-red-700 mt-2">
+                    <div>• <strong>Switches:</strong> Frame an alle Ports weiterleiten</div>
+                    <div>• <strong>Router:</strong> Broadcasts NICHT weiterleiten</div>
+                    <div>• <strong>Empfänger:</strong> Alle Geräte verarbeiten Frame</div>
+                    <div>• <strong>Scope:</strong> Nur innerhalb der Broadcast-Domain</div>
+                  </div>
+                </div>
+
+                <div>
+                  <strong className="text-red-800 text-base">Broadcast-Anwendungen:</strong>
+                  <div className="space-y-2 text-sm text-red-700 mt-2">
+                    <div>• <strong>ARP Requests:</strong> MAC-Adresse finden</div>
+                    <div>• <strong>DHCP Discover:</strong> DHCP-Server finden</div>
+                    <div>• <strong>Wake-on-LAN:</strong> Computer aufwecken</div>
+                    <div>• <strong>NetBIOS:</strong> Name Resolution</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-white p-4 rounded-lg border border-red-200">
+                  <h6 className="font-semibold text-red-800 mb-2">🌐 Broadcast-Domains:</h6>
+                  <div className="space-y-2 text-sm text-red-700">
+                    <div><strong>Begrenzt durch:</strong></div>
+                    <div className="pl-4">• Router (Layer 3 Geräte)</div>
+                    <div className="pl-4">• VLANs (logische Trennung)</div>
+                    <div className="pl-4">• Layer 3 Switches</div>
+                    <div><strong>Nicht begrenzt durch:</strong></div>
+                    <div className="pl-4">• Hubs</div>
+                    <div className="pl-4">• Switches (Layer 2)</div>
+                    <div className="pl-4">• Repeater</div>
+                  </div>
+                </div>
+
+                <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                  <h6 className="font-semibold text-orange-800 mb-2">⚠️ Broadcast-Probleme:</h6>
+                  <div className="space-y-1 text-sm text-orange-700">
+                    <div>• <strong>Broadcast Storm:</strong> Überlastung durch zu viele Broadcasts</div>
+                    <div>• <strong>Performance:</strong> Alle Geräte müssen Frame verarbeiten</div>
+                    <div>• <strong>Sicherheit:</strong> Alle Geräte sehen Broadcast-Traffic</div>
+                    <div>• <strong>Skalierung:</strong> Problem in großen Netzwerken</div>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                  <h6 className="font-semibold text-blue-800 mb-2">🔍 Broadcast-Analyse:</h6>
+                  <div className="space-y-1 text-sm text-blue-700">
+                    <div>• <strong>Wireshark Filter:</strong> <span className="font-mono bg-blue-100 px-1 rounded">eth.dst == ff:ff:ff:ff:ff:ff</span></div>
+                    <div>• <strong>Normal:</strong> 1-5% des Traffics</div>
+                    <div>• <strong>Problem:</strong> &gt;10% Broadcast-Traffic</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* MAC Spoofing */}
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-xl p-6 shadow-lg">
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-xl">🎭</span>
+              </div>
+              <div>
+                <h4 className="font-bold text-purple-800 text-2xl">MAC-Spoofing</h4>
+                <p className="text-purple-600 text-base">Manipulation von MAC-Adressen für verschiedene Zwecke</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div>
+                  <strong className="text-purple-800 text-base">Was ist MAC-Spoofing?</strong>
+                  <div className="space-y-2 text-sm text-purple-700 mt-2">
+                    <div>• <strong>Definition:</strong> Änderung der MAC-Adresse einer Netzwerkkarte</div>
+                    <div>• <strong>Software-basiert:</strong> Änderung im Betriebssystem/Treiber</div>
+                    <div>• <strong>Temporär:</strong> Reset bei Neustart (meist)</div>
+                    <div>• <strong>Einfach:</strong> Mit Standard-Tools möglich</div>
+                  </div>
+                </div>
+
+                <div>
+                  <strong className="text-purple-800 text-base">Spoofing-Kommandos:</strong>
+                  <div className="bg-gray-50 p-3 rounded border mt-2">
+                    <div className="space-y-2 text-xs font-mono text-purple-700">
+                      <div><strong>Linux:</strong></div>
+                      <div>ifconfig eth0 down</div>
+                      <div>ifconfig eth0 hw ether 00:11:22:33:44:55</div>
+                      <div>ifconfig eth0 up</div>
+                      <div className="mt-2"><strong>Windows:</strong></div>
+                      <div>Device Manager → Network Adapter Properties</div>
+                      <div><strong>macOS:</strong></div>
+                      <div>sudo ifconfig en0 ether 00:11:22:33:44:55</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <strong className="text-purple-800 text-base">Legitimate Anwendungen:</strong>
+                  <div className="space-y-2 text-sm text-purple-700 mt-2">
+                    <div>• <strong>Privacy:</strong> Tracking-Schutz in öffentlichen WLANs</div>
+                    <div>• <strong>Testing:</strong> Netzwerk- und Sicherheitstests</div>
+                    <div>• <strong>Bypass:</strong> MAC-basierte Zugangskontrollen umgehen</div>
+                    <div>• <strong>VM Migration:</strong> Nahtloser Server-Umzug</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+                  <h6 className="font-semibold text-red-800 mb-2">🚨 Sicherheitsrisiken:</h6>
+                  <div className="space-y-2 text-sm text-red-700">
+                    <div><strong>ARP Poisoning:</strong></div>
+                    <div className="pl-4">• Falsche MAC-IP-Zuordnungen verbreiten</div>
+                    <div className="pl-4">• Man-in-the-Middle Angriffe ermöglichen</div>
+                    <div><strong>Identity Theft:</strong></div>
+                    <div className="pl-4">• Als anderes Gerät ausgeben</div>
+                    <div className="pl-4">• Zugang zu geschützten Ressourcen</div>
+                    <div><strong>MAC Flooding:</strong></div>
+                    <div className="pl-4">• Switch-Tabellen überlasten</div>
+                    <div className="pl-4">• Failopen zu Hub-Verhalten</div>
+                  </div>
+                </div>
+
+                <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                  <h6 className="font-semibold text-green-800 mb-2">🛡️ Schutzmaßnahmen:</h6>
+                  <div className="space-y-2 text-sm text-green-700">
+                    <div><strong>Port Security:</strong></div>
+                    <div className="pl-4">• Maximale MAC-Adressen pro Port begrenzen</div>
+                    <div className="pl-4">• Sticky MAC Learning</div>
+                    <div><strong>Dynamic ARP Inspection:</strong></div>
+                    <div className="pl-4">• ARP-Pakete gegen DHCP-Binding prüfen</div>
+                    <div><strong>802.1X Authentication:</strong></div>
+                    <div className="pl-4">• Benutzer-basierte Authentifizierung</div>
+                    <div><strong>Network Monitoring:</strong></div>
+                    <div className="pl-4">• Anomalien in MAC-Tabellen erkennen</div>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                  <h6 className="font-semibold text-blue-800 mb-2">🔍 Erkennung:</h6>
+                  <div className="space-y-1 text-sm text-blue-700">
+                    <div>• <strong>ARP-Tabellen überwachen:</strong> Doppelte/wechselnde Einträge</div>
+                    <div>• <strong>Switch-Logs:</strong> MAC-Flapping-Meldungen</div>
+                    <div>• <strong>OUI-Checking:</strong> Ungewöhnliche Hersteller-IDs</div>
+                    <div>• <strong>SIEM-Alerts:</strong> Automatische Anomalie-Erkennung</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* MAC Spoofing Demo */}
+            <div className="mt-6 bg-white p-6 rounded-lg border-2 border-purple-200 shadow-inner">
+              <h6 className="font-semibold text-purple-800 mb-4 text-center">🎭 MAC-Spoofing Szenario:</h6>
+              <svg width="100%" height="200" viewBox="0 0 800 200" className="mx-auto">
+                {/* Original */}
+                <rect x="50" y="50" width="120" height="60" fill="#3B82F6" stroke="#1E40AF" strokeWidth="2" rx="10"/>
+                <text x="110" y="75" textAnchor="middle" className="text-sm font-bold fill-white">Legitimate PC</text>
+                <text x="110" y="90" textAnchor="middle" className="text-xs fill-white">MAC: AA:BB:CC:DD:EE:11</text>
+
+                {/* Spoofed */}
+                <rect x="50" y="130" width="120" height="60" fill="#EF4444" stroke="#DC2626" strokeWidth="2" rx="10"/>
+                <text x="110" y="155" textAnchor="middle" className="text-sm font-bold fill-white">Attacker PC</text>
+                <text x="110" y="170" textAnchor="middle" className="text-xs fill-white">MAC: AA:BB:CC:DD:EE:11</text>
+
+                {/* Switch */}
+                <rect x="350" y="90" width="100" height="40" fill="#6B7280" stroke="#374151" strokeWidth="2" rx="5"/>
+                <text x="400" y="112" textAnchor="middle" className="text-sm font-bold fill-white">Switch</text>
+
+                {/* Server */}
+                <rect x="630" y="90" width="120" height="40" fill="#10B981" stroke="#047857" strokeWidth="2" rx="10"/>
+                <text x="690" y="112" textAnchor="middle" className="text-sm font-bold fill-white">Server</text>
+
+                {/* Connections */}
+                <line x1="170" y1="80" x2="350" y2="100" stroke="#3B82F6" strokeWidth="2" strokeDasharray="5,5"/>
+                <line x1="170" y1="160" x2="350" y2="120" stroke="#EF4444" strokeWidth="3"/>
+                <line x1="450" y1="110" x2="630" y2="110" stroke="#10B981" strokeWidth="3"/>
+
+                <text x="260" y="75" className="text-xs text-blue-600">Original (offline)</text>
+                <text x="260" y="145" className="text-xs text-red-600">Spoofed (aktiv)</text>
+                <text x="540" y="105" className="text-xs text-green-600">Traffic geht zu Angreifer</text>
+
+                {/* Warning */}
+                <text x="400" y="30" textAnchor="middle" className="text-sm font-bold text-red-600">⚠️ Gleiche MAC-Adresse!</text>
+              </svg>
+            </div>
+          </div>
+
+          {/* Summary */}
+          <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <h5 className="font-semibold text-gray-800 mb-4">📚 Zusammenfassung Layer-2-Adressierung:</h5>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h6 className="font-semibold text-gray-700 mb-2">🔑 Kern-Konzepte:</h6>
+                <div className="space-y-1 text-sm text-gray-600">
+                  <div>• <strong>MAC-Adressen:</strong> 48-Bit eindeutige Hardware-Identifikation</div>
+                  <div>• <strong>ARP:</strong> IP-zu-MAC Auflösung für lokale Kommunikation</div>
+                  <div>• <strong>Broadcast:</strong> FF:FF:FF:FF:FF:FF erreicht alle Geräte</div>
+                  <div>• <strong>Spoofing:</strong> MAC-Adressen können geändert werden</div>
+                </div>
+              </div>
+              
+              <div>
+                <h6 className="font-semibold text-gray-700 mb-2">⚠️ Wichtige Punkte:</h6>
+                <div className="space-y-1 text-sm text-gray-600">
+                  <div>• MAC-Adressen nur lokal gültig (Router ersetzen sie)</div>
+                  <div>• ARP-Cache wichtig für Performance</div>
+                  <div>• Broadcasts können Performance beeinträchtigen</div>
+                  <div>• MAC-basierte Sicherheit ist unsicher</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
