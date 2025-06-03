@@ -321,6 +321,323 @@ const LineCodeVisualizer: React.FC = () => {
         </div>
       </div>
 
+      {/* Line Code Overview */}
+      <div className="section-card">
+        <h3 className="text-xl font-semibold mb-4">📚 Leitungscodes im Überblick</h3>
+        <p className="text-gray-600 mb-6">
+          Verschiedene Leitungscodes haben unterschiedliche Eigenschaften für die digitale Signalübertragung.
+          Hier sind die wichtigsten Codes aus den Vorlesungen erklärt.
+        </p>
+
+        {/* Desired Properties */}
+        <div className="bg-blue-50 p-6 rounded-lg mb-6 border border-blue-200">
+          <h4 className="font-semibold text-blue-800 mb-4">🎯 Erwünschte Eigenschaften von Leitungscodes:</h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <h5 className="font-semibold text-blue-700 mb-2">⚡ DC-Freiheit</h5>
+              <p className="text-sm text-blue-600">
+                Gleichstromanteil = 0, um Übertragung über AC-gekoppelte Leitungen zu ermöglichen
+              </p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <h5 className="font-semibold text-green-700 mb-2">🔄 Selbstsynchronisation</h5>
+              <p className="text-sm text-green-600">
+                Genügend Pegelwechsel für Taktrückgewinnung beim Empfänger
+              </p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <h5 className="font-semibold text-purple-700 mb-2">🛡️ Fehlerkennung</h5>
+              <p className="text-sm text-purple-600">
+                Eingebaute Mechanismen zur Erkennung von Übertragungsfehlern
+              </p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <h5 className="font-semibold text-orange-700 mb-2">📊 Spektrale Effizienz</h5>
+              <p className="text-sm text-orange-600">
+                Minimale Bandbreite bei hoher Datenrate
+              </p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <h5 className="font-semibold text-red-700 mb-2">⚖️ Redundanz</h5>
+              <p className="text-sm text-red-600">
+                Kontrollierte Redundanz für Fehlerkorrektur ohne Overhead
+              </p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm">
+              <h5 className="font-semibold text-gray-700 mb-2">🔧 Einfachheit</h5>
+              <p className="text-sm text-gray-600">
+                Geringe Komplexität bei Encoding/Decoding
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Line Codes Comparison */}
+        <div className="space-y-6">
+          <h4 className="font-semibold text-lg">🔍 Leitungscodes im Detail:</h4>
+          
+          {/* NRZ Codes */}
+          <div className="bg-gray-50 p-6 rounded-lg">
+            <h5 className="font-semibold text-gray-800 mb-4 text-xl">Non-Return-to-Zero (NRZ) Familie</h5>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* NRZ-L */}
+              <div className="bg-white border border-gray-200 rounded-lg p-4">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">NRZ</span>
+                  </div>
+                  <div>
+                    <h6 className="font-bold text-blue-800">NRZ-L (Level)</h6>
+                    <p className="text-sm text-blue-600">Pegelkodierung</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2 text-sm">
+                  <div><strong>Prinzip:</strong> '1' = High, '0' = Low</div>
+                  <div><strong>DC-Freiheit:</strong> ❌ Nein (bei vielen 1en oder 0en)</div>
+                  <div><strong>Selbstsync:</strong> ❌ Probleme bei langen 0- oder 1-Folgen</div>
+                  <div><strong>Bandbreite:</strong> 🟢 R/2 Hz (sehr effizient)</div>
+                  <div><strong>Verwendung:</strong> Kurze Distanzen, TTL-Logik</div>
+                </div>
+              </div>
+
+              {/* NRZI */}
+              <div className="bg-white border border-green-200 rounded-lg p-4">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">NRZI</span>
+                  </div>
+                  <div>
+                    <h6 className="font-bold text-green-800">NRZI (Inverted)</h6>
+                    <p className="text-sm text-green-600">Wechselkodierung</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2 text-sm">
+                  <div><strong>Prinzip:</strong> '1' = Wechsel, '0' = kein Wechsel</div>
+                  <div><strong>DC-Freiheit:</strong> 🟡 Besser als NRZ-L</div>
+                  <div><strong>Selbstsync:</strong> 🟡 Gut bei vielen 1en, Problem bei 0-Folgen</div>
+                  <div><strong>Bandbreite:</strong> 🟢 R/2 Hz</div>
+                  <div><strong>Verwendung:</strong> USB, 4B5B/5B6B Basis</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Manchester Codes */}
+          <div className="bg-blue-50 p-6 rounded-lg">
+            <h5 className="font-semibold text-blue-800 mb-4 text-xl">Manchester Familie</h5>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Manchester */}
+              <div className="bg-white border border-blue-200 rounded-lg p-4">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">MAN</span>
+                  </div>
+                  <div>
+                    <h6 className="font-bold text-blue-800">Manchester</h6>
+                    <p className="text-sm text-blue-600">Biphase-L</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2 text-sm">
+                  <div><strong>Prinzip:</strong> '1' = Low→High, '0' = High→Low</div>
+                  <div><strong>DC-Freiheit:</strong> ✅ Perfekt (immer 50% High/Low)</div>
+                  <div><strong>Selbstsync:</strong> ✅ Exzellent (Wechsel in jeder Bitzeit)</div>
+                  <div><strong>Bandbreite:</strong> 🔴 R Hz (doppelte Bandbreite)</div>
+                  <div><strong>Verwendung:</strong> Ethernet 10Base2/5, IEEE 802.3</div>
+                </div>
+              </div>
+
+              {/* Differential Manchester */}
+              <div className="bg-white border border-indigo-200 rounded-lg p-4">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">DMN</span>
+                  </div>
+                  <div>
+                    <h6 className="font-bold text-indigo-800">Differential Manchester</h6>
+                    <p className="text-sm text-indigo-600">Biphase-M</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2 text-sm">
+                  <div><strong>Prinzip:</strong> '1' = kein Wechsel, '0' = Wechsel zu Beginn</div>
+                  <div><strong>DC-Freiheit:</strong> ✅ Perfekt</div>
+                  <div><strong>Selbstsync:</strong> ✅ Exzellent</div>
+                  <div><strong>Bandbreite:</strong> 🔴 R Hz</div>
+                  <div><strong>Verwendung:</strong> Token Ring, FDDI</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Block Codes */}
+          <div className="bg-green-50 p-6 rounded-lg">
+            <h5 className="font-semibold text-green-800 mb-4 text-xl">Block Codes (mBnB)</h5>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* 4B5B */}
+              <div className="bg-white border border-green-200 rounded-lg p-4">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">4B5B</span>
+                  </div>
+                  <div>
+                    <h6 className="font-bold text-green-800">4B5B + NRZI</h6>
+                    <p className="text-sm text-green-600">Fast Ethernet</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2 text-sm">
+                  <div><strong>Prinzip:</strong> 4 Datenbits → 5 Kodebits</div>
+                  <div><strong>Effizienz:</strong> 80% (4/5)</div>
+                  <div><strong>DC-Freiheit:</strong> 🟡 Über NRZI</div>
+                  <div><strong>Selbstsync:</strong> ✅ Max 3 aufeinanderfolgende 0en</div>
+                  <div><strong>Fehlerkennung:</strong> ✅ Ungültige 5B-Wörter</div>
+                  <div><strong>Verwendung:</strong> 100BASE-TX Ethernet</div>
+                </div>
+              </div>
+
+              {/* 5B6B */}
+              <div className="bg-white border border-teal-200 rounded-lg p-4">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">5B6B</span>
+                  </div>
+                  <div>
+                    <h6 className="font-bold text-teal-800">5B6B + NRZI</h6>
+                    <p className="text-sm text-teal-600">FDDI Standard</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2 text-sm">
+                  <div><strong>Prinzip:</strong> 5 Datenbits → 6 Kodebits</div>
+                  <div><strong>Effizienz:</strong> 83.3% (5/6)</div>
+                  <div><strong>DC-Freiheit:</strong> 🟡 Über NRZI</div>
+                  <div><strong>Selbstsync:</strong> ✅ Begrenzte 0-Folgen</div>
+                  <div><strong>Fehlerkennung:</strong> ✅ 32 ungültige Kombinationen</div>
+                  <div><strong>Verwendung:</strong> FDDI, ATM</div>
+                </div>
+              </div>
+
+              {/* 8B10B */}
+              <div className="bg-white border border-emerald-200 rounded-lg p-4">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="w-10 h-10 bg-emerald-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">8B10B</span>
+                  </div>
+                  <div>
+                    <h6 className="font-bold text-emerald-800">8B10B</h6>
+                    <p className="text-sm text-emerald-600">Gigabit Ethernet</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2 text-sm">
+                  <div><strong>Prinzip:</strong> 8 Datenbits → 10 Kodebits</div>
+                  <div><strong>Effizienz:</strong> 80% (8/10)</div>
+                  <div><strong>DC-Freiheit:</strong> ✅ Running Disparity Control</div>
+                  <div><strong>Selbstsync:</strong> ✅ Max 5 gleiche Bits</div>
+                  <div><strong>Fehlerkennung:</strong> ✅ Disparity + ungültige Symbole</div>
+                  <div><strong>Verwendung:</strong> Gigabit Ethernet, Fibre Channel</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Comparison Table */}
+          <div className="overflow-x-auto">
+            <h5 className="font-semibold mb-3">📊 Eigenschaften-Vergleich:</h5>
+            <table className="w-full border border-gray-300 text-sm">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-3 py-2 border-b text-left">Code</th>
+                  <th className="px-3 py-2 border-b text-left">DC-Freiheit</th>
+                  <th className="px-3 py-2 border-b text-left">Selbstsync</th>
+                  <th className="px-3 py-2 border-b text-left">Bandbreite</th>
+                  <th className="px-3 py-2 border-b text-left">Effizienz</th>
+                  <th className="px-3 py-2 border-b text-left">Fehlerkennung</th>
+                  <th className="px-3 py-2 border-b text-left">Komplexität</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-3 py-2 border-b font-semibold">NRZ-L</td>
+                  <td className="px-3 py-2 border-b">❌ Schlecht</td>
+                  <td className="px-3 py-2 border-b">❌ Schlecht</td>
+                  <td className="px-3 py-2 border-b">🟢 R/2</td>
+                  <td className="px-3 py-2 border-b">🟢 100%</td>
+                  <td className="px-3 py-2 border-b">❌ Keine</td>
+                  <td className="px-3 py-2 border-b">🟢 Sehr niedrig</td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-3 py-2 border-b font-semibold">NRZI</td>
+                  <td className="px-3 py-2 border-b">🟡 Mittel</td>
+                  <td className="px-3 py-2 border-b">🟡 Mittel</td>
+                  <td className="px-3 py-2 border-b">🟢 R/2</td>
+                  <td className="px-3 py-2 border-b">🟢 100%</td>
+                  <td className="px-3 py-2 border-b">❌ Keine</td>
+                  <td className="px-3 py-2 border-b">🟢 Niedrig</td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-3 py-2 border-b font-semibold">Manchester</td>
+                  <td className="px-3 py-2 border-b">✅ Perfekt</td>
+                  <td className="px-3 py-2 border-b">✅ Perfekt</td>
+                  <td className="px-3 py-2 border-b">🔴 R</td>
+                  <td className="px-3 py-2 border-b">🟡 50%</td>
+                  <td className="px-3 py-2 border-b">🟡 Begrenzt</td>
+                  <td className="px-3 py-2 border-b">🟡 Mittel</td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-3 py-2 border-b font-semibold">4B5B+NRZI</td>
+                  <td className="px-3 py-2 border-b">🟢 Gut</td>
+                  <td className="px-3 py-2 border-b">✅ Sehr gut</td>
+                  <td className="px-3 py-2 border-b">🟡 0.625R</td>
+                  <td className="px-3 py-2 border-b">🟢 80%</td>
+                  <td className="px-3 py-2 border-b">✅ Gut</td>
+                  <td className="px-3 py-2 border-b">🟡 Mittel</td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-3 py-2 border-b font-semibold">8B10B</td>
+                  <td className="px-3 py-2 border-b">✅ Exzellent</td>
+                  <td className="px-3 py-2 border-b">✅ Exzellent</td>
+                  <td className="px-3 py-2 border-b">🟡 0.5R</td>
+                  <td className="px-3 py-2 border-b">🟢 80%</td>
+                  <td className="px-3 py-2 border-b">✅ Exzellent</td>
+                  <td className="px-3 py-2 border-b">🔴 Hoch</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Practical Applications */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+              <h6 className="font-semibold text-purple-800 mb-3">🌐 Praktische Anwendungen:</h6>
+              <div className="space-y-2 text-sm text-purple-700">
+                <div><strong>NRZ/NRZI:</strong> RS-232, USB (Low-Speed)</div>
+                <div><strong>Manchester:</strong> 10BASE-T Ethernet, RFID</div>
+                <div><strong>4B5B:</strong> 100BASE-TX Fast Ethernet</div>
+                <div><strong>8B10B:</strong> Gigabit Ethernet, PCI Express</div>
+                <div><strong>64B/66B:</strong> 10 Gigabit Ethernet</div>
+              </div>
+            </div>
+            
+            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+              <h6 className="font-semibold text-orange-800 mb-3">⚖️ Design Trade-offs:</h6>
+              <div className="space-y-2 text-sm text-orange-700">
+                <div><strong>Bandbreite vs. Zuverlässigkeit:</strong> Mehr Redundanz = höhere Bandbreite</div>
+                <div><strong>Komplexität vs. Leistung:</strong> Bessere Eigenschaften = mehr Hardware</div>
+                <div><strong>Effizienz vs. Robustheit:</strong> Weniger Overhead = mehr Probleme</div>
+                <div><strong>Kosten vs. Distanz:</strong> Bessere Codes = teurere Implementierung</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Interactive Examples */}
       <div className="section-card">
         <h3 className="text-xl font-semibold mb-4">🎯 Klausur-Beispiele</h3>
