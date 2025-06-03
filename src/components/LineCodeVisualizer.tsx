@@ -112,22 +112,10 @@ const LineCodeVisualizer: React.FC = () => {
     return signal;
   };
 
-  const generateNRZSignal = (bits: string): SignalPoint[] => {
-    const signal: SignalPoint[] = [];
-    
-    for (let i = 0; i < bits.length; i++) {
-      const bit = bits[i];
-      const level = bit === '1' ? 1 : 0;
-      
-      signal.push({ time: i, value: level, bit });
-      signal.push({ time: i + 1, value: level });
-    }
-    
-    return signal;
-  };
 
   const encodedBits = encodeData();
-  const signalPoints = encodingType === 'nrzi' ? generateNRZISignal(encodedBits) : generateNRZSignal(encodedBits);
+  // Für alle Kodierungstypen NRZI verwenden (4B5B und 5B6B verwenden immer NRZI)
+  const signalPoints = generateNRZISignal(encodedBits);
 
   const startAnimation = () => {
     setShowAnimation(true);
@@ -185,8 +173,8 @@ const LineCodeVisualizer: React.FC = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="nrzi">NRZI</option>
-              <option value="4b5b">4B5B + NRZ</option>
-              <option value="5b6b">5B6B + NRZ</option>
+              <option value="4b5b">4B5B + NRZI</option>
+              <option value="5b6b">5B6B + NRZI</option>
             </select>
           </div>
           
@@ -320,7 +308,8 @@ const LineCodeVisualizer: React.FC = () => {
           <div className="mt-4 flex justify-between text-sm text-gray-600">
             <div>
               <strong>Kodierung:</strong> {encodingType.toUpperCase()}
-              {encodingType === 'nrzi' && ' (Pegelwechsel bei "1", kein Wechsel bei "0")'}
+              <span className="text-blue-600"> + NRZI</span>
+              <div className="text-xs text-gray-500">Pegelwechsel bei "1", kein Wechsel bei "0"</div>
             </div>
             <div>
               <strong>Bits:</strong> {encodedBits.length} | <strong>Effizienz:</strong> {
@@ -356,7 +345,7 @@ const LineCodeVisualizer: React.FC = () => {
             }}
             className="exercise-card text-left"
           >
-            <h4 className="font-semibold mb-2">Beispiel 2: 5B6B + NRZ</h4>
+            <h4 className="font-semibold mb-2">Beispiel 2: 5B6B + NRZI</h4>
             <p className="text-sm opacity-90">
               Kodieren Sie: 00001 01011 11000 01110 10011
             </p>
