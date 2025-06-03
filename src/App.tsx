@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Network, Layers, Shield, Globe, Code, Target } from 'lucide-react';
+import { Network, Layers, Shield, Globe, Code, Target, Cable, Route, Wifi } from 'lucide-react';
 import Navigation from './components/Navigation';
 import OSILayerVisualizer from './components/OSILayerVisualizer';
 import LineCodeVisualizer from './components/LineCodeVisualizer';
+import CablingVisualizer from './components/CablingVisualizer';
 import SubnettingCalculator from './components/SubnettingCalculator';
+import RoutingVisualizer from './components/RoutingVisualizer';
+import VLANVisualizer from './components/VLANVisualizer';
 import CRCCalculator from './components/CRCCalculator';
 import ProtocolOverview from './components/ProtocolOverview';
 import ExerciseSection from './components/ExerciseSection';
@@ -14,7 +17,10 @@ const App: React.FC = () => {
   const sections = [
     { id: 'osi', title: 'OSI-Modell', icon: Layers, component: OSILayerVisualizer },
     { id: 'linecode', title: 'Leitungskodierung', icon: Code, component: LineCodeVisualizer },
+    { id: 'cabling', title: 'Verkabelung & Topologien', icon: Cable, component: CablingVisualizer },
+    { id: 'vlans', title: 'VLANs & Switching', icon: Wifi, component: VLANVisualizer },
     { id: 'subnetting', title: 'Subnetting', icon: Network, component: SubnettingCalculator },
+    { id: 'routing', title: 'Routing & Forwarding', icon: Route, component: RoutingVisualizer },
     { id: 'crc', title: 'CRC & Parität', icon: Shield, component: CRCCalculator },
     { id: 'protocols', title: 'Protokolle', icon: Globe, component: ProtocolOverview },
     { id: 'exercises', title: 'Übungsaufgaben', icon: Target, component: ExerciseSection },

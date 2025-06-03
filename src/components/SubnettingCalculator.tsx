@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, Network, RefreshCw } from 'lucide-react';
 
 interface SubnetInfo {
   networkAddress: string;

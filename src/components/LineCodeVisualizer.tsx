@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Play, RefreshCw } from 'lucide-react';
+import React, { useState } from 'react';
+import { Play } from 'lucide-react';
 
 interface SignalPoint {
   time: number;
